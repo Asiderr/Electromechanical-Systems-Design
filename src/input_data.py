@@ -1,3 +1,5 @@
+import math
+
 class InputData:
     def __init__(self):
         self.nominal_power = 400
@@ -7,6 +9,7 @@ class InputData:
         self.synchronous_speed = 1000
         self.efficiency = 0.8
         self.power_coef = 0.8
+        self.slots = 2
 
         check = input("Do you want to input your data? (y/n) \n")
         if check == 'y':
@@ -49,4 +52,13 @@ class InputData:
 
     def inside_motor_power_calculation(self):
         self.inside_motor_power = 3*self.nominal_current*self.rotation_inducted_voltage
-   
+
+    def slots_number_calculation(self):
+        self.slots_number = 2*self.slots*self.poles_number*3
+        
+    def electrical_angle_slots_voltage_calucation(self):
+        self.electrical_angle_slots_voltage = 2*math.pi*self.poles_number/self.slots_number
+
+    def group_coef_calculation(self):
+        self.group_coef = math.sin(self.slots_number*self.electrical_angle_slots_voltage/2)/(self.slots_number*math.sin(self.electrical_angle_slots_voltage/2))
+    

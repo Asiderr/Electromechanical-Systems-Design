@@ -44,6 +44,23 @@ class TestInputData(unittest.TestCase):
         x.inside_motor_power_calculation()
         self.assertEqual(x.inside_motor_power, 3*x.rotation_inducted_voltage*x.nominal_current)
 
+    def test_slot_number_calculation(self):
+        x = input_data.InputData()
+        x.slots_number_calculation()
+        self.assertEqual(x.slots_number, 2*x.slots*x.poles_number*3)
+
+    def test_electrical_angle_slots_voltage_calucation(self):
+        x = input_data.InputData()
+        x.slots_number_calculation()
+        x.electrical_angle_slots_voltage_calucation()
+        self.assertEqual(x.electrical_angle_slots_voltage, 2*input_data.math.pi*x.poles_number/x.slots_number)
+
+    def test_group_coef_calculation(self):
+        x = input_data.InputData()
+        x.slots_number_calculation()
+        x.electrical_angle_slots_voltage_calucation()
+        x.group_coef_calculation()
+        self.assertEqual(x.group_coef, input_data.math.sin((x.slots_number*x.electrical_angle_slots_voltage/2))/(x.slots_number*input_data.math.sin(x.electrical_angle_slots_voltage/2)))
 """
     def test_Input_not_default(self):
         x = input_data.InputData()
