@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import unittest
 import input_data
+import math
+
 
 class TestInputData(unittest.TestCase):
     def test_Input_Default_Values(self):
@@ -61,6 +63,46 @@ class TestInputData(unittest.TestCase):
         x.electrical_angle_slots_voltage_calucation()
         x.group_coef_calculation()
         self.assertEqual(x.group_coef, input_data.math.sin((x.slots_number*x.electrical_angle_slots_voltage/2))/(x.slots_number*input_data.math.sin(x.electrical_angle_slots_voltage/2)))
+
+    def test_podzialka_biegunowa_calculation(self):
+        x = input_data.InputData()
+        x.slots_number_calculation()
+        x.podzialka_biegunowa_calculation()
+        self.assertEqual(x.podzialka_biegunowa, x.slots_number/(2*x.poles_number))
+    
+    def test_motor_volume_calculation(self):
+        x = input_data.InputData()
+        x.rotation_inducted_voltage_coefficient_calculation()
+        x.rotation_inducted_voltage_calculation()
+        x.electric_power_calculation()
+        x.nominal_current_calculation()
+        x.inside_motor_power_calculation()
+        x.motor_volume_calculation()
+        self.assertEqual(x.volume, (x.inside_motor_power * 2 * math.sqrt(2)) / (pow(math.pi, 3) * x.oklad_pradowy * x.induction * x.wykorzystanie_podzialki_coef * (x.synchronous_speed/60) * 0.96))
+
+    def test_motor_dimension_calculation(self):
+        x = input_data.InputData()
+        x.rotation_inducted_voltage_coefficient_calculation()
+        x.rotation_inducted_voltage_calculation()
+        x.electric_power_calculation()
+        x.nominal_current_calculation()
+        x.inside_motor_power_calculation()
+        x.motor_volume_calculation()
+        x.motor_dimension_calculation()
+        print(x.motor_dimension)
+        self.assertEqual(x.motor_dimension, pow((x.volume * 2 * math.sqrt(2))/(x.wspolczynnik_smuklosci * math.pi),1/3))
+    
+    def test_motor_lenth_calculation(self):
+        x = input_data.InputData()
+        x.rotation_inducted_voltage_coefficient_calculation()
+        x.rotation_inducted_voltage_calculation()
+        x.electric_power_calculation()
+        x.nominal_current_calculation()
+        x.inside_motor_power_calculation()
+        x.motor_volume_calculation()
+        x.motor_dimension_calculation()
+        x.motor_lenth_calculation()
+        self.assertEqual(x.motor_lenth_calculation())
 """
     def test_Input_not_default(self):
         x = input_data.InputData()
