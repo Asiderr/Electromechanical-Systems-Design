@@ -6,3 +6,9 @@
 !*/
 # Ignore virtualenv
 elesys/
+# Ignore linter files
+.mypy_cache/
+# Ignore .vs code files
+.vscode/
+# Ignore python cache files
+src/__pycache__/
